@@ -3,6 +3,16 @@ import { red } from '@mui/material/colors';
 
 // Create a theme instance.
 const theme = createTheme({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        "a:has(button)": {
+          color: "inherit",
+          textDecoration: "none",
+        }
+      }
+    }
+  },
   palette: {
     primary: {
       main: '#556cd6',

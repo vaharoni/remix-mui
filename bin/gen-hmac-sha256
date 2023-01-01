@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Generate 256-bit secret used for HMAC-SHA-256 for signing things.
+
+DIRNAME=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# tr +/ -_ converts the string from base64 to urlsafe base64.
+head -c 32 /dev/urandom | base64 | tr +/ -_

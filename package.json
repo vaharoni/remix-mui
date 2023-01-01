@@ -2,33 +2,43 @@
   "name": "remix-with-typescript",
   "version": "5.0.0",
   "private": true,
+  "sideEffects": false,
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "postinstall": "remix setup node",
-    "start": "remix-serve build"
+    "start": "remix-serve build",
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@emotion/cache": "latest",
     "@emotion/react": "latest",
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
+    "@hookform/resolvers": "latest",
+    "@mui/lab": "latest",
     "@mui/material": "latest",
+    "@prisma/client": "latest",
     "@remix-run/node": "latest",
     "@remix-run/react": "latest",
     "@remix-run/serve": "latest",
+    "bcryptjs": "latest",
+    "prisma": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "remix": "latest"
+    "react-hook-form": "latest",
+    "tiny-invariant": "latest",
+    "zod": "latest"
   },
   "devDependencies": {
     "@remix-run/dev": "latest",
+    "@remix-run/eslint-config": "latest",
+    "@types/bcryptjs": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "eslint": "latest",
     "typescript": "latest"
   },
   "engines": {
     "node": ">=14"
-  },
-  "sideEffects": false
+  }
 }

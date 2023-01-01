@@ -1,15 +1,29 @@
 import * as React from 'react';
 import { withEmotionCache } from '@emotion/react';
 import { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/material';
-import theme from './src/theme';
-import ClientStyleContext from './src/ClientStyleContext';
-import Layout from './src/Layout';
+import theme from './mui/theme';
+import ClientStyleContext from './mui/ClientStyleContext';
 import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch} from "@remix-run/react";
+import {json, LoaderFunction, MetaFunction} from "@remix-run/node";
+import {getUser} from "~/server-utils/session.server";
 
 interface DocumentProps {
   children: React.ReactNode;
   title?: string;
 }
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return json({
+    user: await getUser(request),
+  });
+}
+
+export const meta: MetaFunction = () => ({
+  charset: "utf-8",
+  title: "New Remix App",
+  viewport: "width=device-width,initial-scale=1",
+  "theme-color": theme.palette.primary.main,
+});
 
 const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCache) => {
   const clientStyleData = React.useContext(ClientStyleContext);
@@ -33,10 +47,6 @@ const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCa
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <meta name="theme-color" content={theme.palette.primary.main} />
-        {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
         <link
@@ -60,9 +70,7 @@ const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCa
 export default function App() {
   return (
     <Document>
-      <Layout>
-        <Outlet />
-      </Layout>
+      <Outlet />
     </Document>
   );
 }
@@ -73,14 +81,12 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
   return (
     <Document title="Error!">
-      <Layout>
-        <div>
-          <h1>There was an error</h1>
-          <p>{error.message}</p>
-          <hr />
-          <p>Hey, developer, you should replace this with what you want your users to see.</p>
-        </div>
-      </Layout>
+      <div>
+        <h1>There was an error</h1>
+        <p>{error.message}</p>
+        <hr />
+        <p>Hey, developer, you should replace this with what you want your users to see.</p>
+      </div>
     </Document>
   );
 }
@@ -104,12 +110,10 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <Layout>
-        <h1>
-          {caught.status}: {caught.statusText}
-        </h1>
-        {message}
-      </Layout>
+      <h1>
+        {caught.status}: {caught.statusText}
+      </h1>
+      {message}
     </Document>
   );
 }

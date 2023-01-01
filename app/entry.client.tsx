@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { startTransition } from 'react';
+import {StrictMode, useState, startTransition} from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import ClientStyleContext from './src/ClientStyleContext';
-import createEmotionCache from './src/createEmotionCache';
-import theme from './src/theme';
+import ClientStyleContext from './mui/ClientStyleContext';
+import createEmotionCache from './mui/createEmotionCache';
+import theme from './mui/theme';
 import {RemixBrowser} from "@remix-run/react";
 
 interface ClientCacheProviderProps {
@@ -36,13 +35,15 @@ const hydrate = () => {
   startTransition(() => {
     hydrateRoot(
       document,
-      <ClientCacheProvider>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <RemixBrowser />
-        </ThemeProvider>
-      </ClientCacheProvider>,
+      <StrictMode>
+        <ClientCacheProvider>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <RemixBrowser />
+          </ThemeProvider>
+        </ClientCacheProvider>
+      </StrictMode>,
     );
   });
 };
